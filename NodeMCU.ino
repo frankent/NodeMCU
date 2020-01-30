@@ -3,26 +3,26 @@
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 
-#ifndef STASSID
-#define STASSID "your-ssid"
-#define STAPSK  "your-password"
-#endif
+const char* ssid = "__WIFI_1__";
+const char* password = "__PASS_1__";
 
-const char* ssid = STASSID;
-const char* password = STAPSK;
-
-const char* ssid2 = STASSID;
-const char* password2 = STAPSK;
+const char* ssid2 = "__WIFI_2__";
+const char* password2 = "__PASS_2__";
 
 void setupWifi() {
   WiFi.mode(WIFI_STA);
+  Serial.print("Connecting to ...");
+  Serial.println(ssid);
   WiFi.begin(ssid, password);
   if (WiFi.waitForConnectResult() == WL_CONNECTED) return;
+  Serial.println("Connection Failed! try next WIFI...");
 
+  Serial.print("Connecting to ...");
+  Serial.println(ssid2);
   WiFi.begin(ssid2, password2);
   if (WiFi.waitForConnectResult() == WL_CONNECTED) return;
-  
   Serial.println("Connection Failed! Rebooting...");
+  
   delay(5000);
   ESP.restart();
 }
